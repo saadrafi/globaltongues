@@ -9,15 +9,46 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    getValues,
     formState: { errors },
   } = useForm();
-  const { signIn, setLoading } = useContext(AuthContext);
+  const { signIn, setLoading, signInWithGoogle } = useContext(AuthContext);
   const onSubmit = (data) => {
     signIn(data.email, data.password)
       .then((res) => {
         setLoading(false);
         notifyWithTitle("Successful", "Sign In successful");
+      })
+      .catch((err) => {
+        notifyError(err.message);
+      });
+  };
+
+  const handleGoogleSignIn = () => {
+    signInWithGoogle()
+      .then((res) => {
+        const newUser = {
+          name: res.user.displayName,
+          email: res.user.email,
+          image: res.user.photoURL,
+          role: "student",
+        };
+        fetch("http://localhost:3000/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            setLoading(false);
+            notifyWithTitle("Successful", "Sign Up successful");
+            console.log(data);
+          })
+          .catch((err) => {
+            notifyError(err.message);
+            setLoading(false);
+          });
       })
       .catch((err) => {
         notifyError(err.message);
@@ -88,7 +119,10 @@ const Login = () => {
           </button>
         </form>
         <div className="divider">OR</div>
-        <button className="bg-white border py-2 w-full mt-5 flex gap-2 justify-center items-center text-sm hover:scale-105 duration-300 text-primary ">
+        <button
+          onClick={handleGoogleSignIn}
+          className="bg-white border py-2 w-full mt-5 flex gap-2 justify-center items-center text-sm hover:scale-105 duration-300 text-primary "
+        >
           <FaGoogle></FaGoogle>
           Login with Google
         </button>

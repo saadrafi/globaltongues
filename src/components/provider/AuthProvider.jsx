@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   signInWithPopup,
+  GoogleAuthProvider,
 } from "firebase/auth";
 import app from "../../firebase/firebase.config";
 import FullPageSpinner from "../../spinners/FullPageSpinner";
@@ -34,6 +35,12 @@ const AuthProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
+  const googleProvider = new GoogleAuthProvider();
+  const signInWithGoogle = () => {
+    setLoading(true);
+    return signInWithPopup(auth, googleProvider);
+  };
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
@@ -50,6 +57,7 @@ const AuthProvider = ({ children }) => {
     updateUser,
     setLoading,
     signIn,
+    signInWithGoogle,
   };
   return loading ? (
     <FullPageSpinner></FullPageSpinner>

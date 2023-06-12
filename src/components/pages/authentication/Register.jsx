@@ -6,6 +6,7 @@ import { AuthContext } from "../../provider/AuthProvider";
 import { notifyError, notifyWithTitle } from "../../../alerts/Alerts";
 const Register = () => {
   const {
+    reset,
     register,
     handleSubmit,
     getValues,
@@ -14,16 +15,67 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showCnfPassword, setCnfShowPassword] = useState(false);
   const [submit, setSubmit] = useState(false);
-  const { signUp, updateUser, setLoading } = useContext(AuthContext);
+  const { signUp, updateUser, signInWithGoogle, setLoading } = useContext(AuthContext);
 
+  const sendUserdata = (newUser) => {
+    fetch("http://localhost:3000/users", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newUser),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setLoading(false);
+        notifyWithTitle("Successful", "Sign Up successful");
+        console.log(data);
+      });
+  };
+  const handleGoogleSignIn = () => {
+    signInWithGoogle()
+      .then((res) => {
+        const newUser = {
+          name: res.user.displayName,
+          email: res.user.email,
+          image: res.user.photoURL,
+          role: "student",
+        };
+        fetch("http://localhost:3000/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            setLoading(false);
+            notifyWithTitle("Successful", "Sign Up successful");
+            console.log(data);
+          })
+          .catch((err) => {
+            notifyError(err.message);
+            setLoading(false);
+          });
+      })
+      .catch((err) => {
+        notifyError(err.message);
+      });
+  };
   const onSubmit = (data) => {
     setLoading(true);
     signUp(data.email, data.password)
       .then((res) => {
         updateUser(data.name, data.photoUrl)
           .then((res) => {
-            setLoading(false);
-            notifyWithTitle("Successful", "Sign Up successful");
+            const newUser = {
+              name: data.name,
+              email: data.email,
+              image: data.photoUrl,
+              role: "student",
+            };
+            sendUserdata(newUser);
           })
           .catch((err) => {
             notifyError(err.message);
@@ -161,7 +213,10 @@ const Register = () => {
           </button>
         </form>
         <div className="divider">OR</div>
-        <button className="bg-white border py-2 w-full mt-5 flex gap-2 justify-center items-center text-sm hover:scale-105 duration-300 text-primary ">
+        <button
+          onClick={handleGoogleSignIn}
+          className="bg-white border py-2 w-full mt-5 flex gap-2 justify-center items-center text-sm hover:scale-105 duration-300 text-primary "
+        >
           <FaGoogle></FaGoogle>
           Sign up with Google
         </button>
