@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaGoogle, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../provider/AuthProvider";
+import { notifyError, notifyWithTitle } from "../../../alerts/Alerts";
 
 const Login = () => {
   const {
@@ -10,7 +12,17 @@ const Login = () => {
     getValues,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const { signIn, setLoading } = useContext(AuthContext);
+  const onSubmit = (data) => {
+    signIn(data.email, data.password)
+      .then((res) => {
+        setLoading(false);
+        notifyWithTitle("Successful", "Sign In successful");
+      })
+      .catch((err) => {
+        notifyError(err.message);
+      });
+  };
   const [showPassword, setShowPassword] = useState(false);
   return (
     <div className=" my-10 grid grid-cols-2 ">
