@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaGoogle, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../../provider/AuthProvider";
+import { notifyError, notifyWithTitle } from "../../../alerts/Alerts";
 const Register = () => {
   const {
     register,
@@ -9,10 +11,30 @@ const Register = () => {
     getValues,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data.photo);
   const [showPassword, setShowPassword] = useState(false);
   const [showCnfPassword, setCnfShowPassword] = useState(false);
   const [submit, setSubmit] = useState(false);
+  const { signUp, updateUser, setLoading } = useContext(AuthContext);
+
+  const onSubmit = (data) => {
+    setLoading(true);
+    signUp(data.email, data.password)
+      .then((res) => {
+        updateUser(data.name, data.photoUrl)
+          .then((res) => {
+            setLoading(false);
+            notifyWithTitle("Successful", "Sign Up successful");
+          })
+          .catch((err) => {
+            notifyError(err.message);
+            setLoading(false);
+          });
+      })
+      .catch((err) => {
+        notifyError(err.message);
+        setLoading(false);
+      });
+  };
 
   return (
     <div className=" my-10 grid grid-cols-2 ">
