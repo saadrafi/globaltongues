@@ -7,6 +7,7 @@ import Dashboard from "../layout/dashboard/Dashboard";
 import PrivateRoute from "./PrivateRoute";
 import ManageUsers from "../dashboardPages/adminDashboard/ManageUsers";
 import DashboardRoute from "./DashboardRoute";
+import AddClassPage from "../dashboardPages/instructorDashboard/AddClassPage";
 
 export const router = createBrowserRouter([
   {
@@ -59,10 +60,21 @@ export const router = createBrowserRouter([
           </DashboardRoute>
         ),
       },
-      
+      {
+        path: "addclass",
+        element: (
+          <DashboardRoute role="instructor">
+            <AddClassPage></AddClassPage>
+          </DashboardRoute>
+        ),
+      },
       {
         path: "student",
-        element: <h1>Student</h1>,
+        element: (
+          <DashboardRoute role="student">
+            <h1>Student</h1>
+          </DashboardRoute>
+        ),
       },
     ],
   },
