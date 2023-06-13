@@ -9,6 +9,7 @@ import ManageUsers from "../dashboardPages/adminDashboard/ManageUsers";
 import DashboardRoute from "./DashboardRoute";
 import AddClassPage from "../dashboardPages/instructorDashboard/AddClassPage";
 import MyClasses from "../dashboardPages/instructorDashboard/MyClasses";
+import UpdateClass from "../dashboardPages/instructorDashboard/UpdateClass";
 
 export const router = createBrowserRouter([
   {
@@ -74,6 +75,14 @@ export const router = createBrowserRouter([
         element: (
           <DashboardRoute role="instructor">
             <MyClasses></MyClasses>
+          </DashboardRoute>
+        ),
+      },
+      {
+        path: "update/:id",
+        element: (
+          <DashboardRoute role="instructor">
+            <UpdateClass></UpdateClass>
           </DashboardRoute>
         ),
       },
