@@ -6,6 +6,7 @@ import Register from "../pages/authentication/Register";
 import Dashboard from "../layout/dashboard/Dashboard";
 import PrivateRoute from "./PrivateRoute";
 import ManageUsers from "../dashboardPages/adminDashboard/ManageUsers";
+import DashboardRoute from "./DashboardRoute";
 
 export const router = createBrowserRouter([
   {
@@ -36,16 +37,29 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "admin",
-        element: <h1>Admin</h1>,
+        element: (
+          <DashboardRoute role="admin">
+            <h1>Admin</h1>
+          </DashboardRoute>
+        ),
       },
       {
         path: "manageusers",
-        element: <ManageUsers></ManageUsers>,
+        element: (
+          <DashboardRoute role="admin">
+            <ManageUsers></ManageUsers>
+          </DashboardRoute>
+        ),
       },
       {
         path: "instructor",
-        element: <h1>Instructor</h1>,
+        element: (
+          <DashboardRoute role="instructor">
+            <h1>Instructor</h1>
+          </DashboardRoute>
+        ),
       },
+      
       {
         path: "student",
         element: <h1>Student</h1>,
