@@ -47,8 +47,20 @@ const MyClasses = () => {
                   <td>${item.price}</td>
                   <td>{item.availableSeat}</td>
                   <td>{item.enrolledStudent}</td>
-                  <td>{item.status}</td>
-                  <td>{item?.feedback}</td>
+                  <td>
+                    <span
+                      className={`badge ${
+                        item.status === "pending"
+                          ? "badge-warning"
+                          : item.status === "approved"
+                          ? "badge-success"
+                          : "badge-error"
+                      }`}
+                    >
+                      {item.status}
+                    </span>
+                  </td>
+                  <td>{item.status === "denied" ? item?.feedback : ""}</td>
                   <td>
                     <Link to={`/dashboard/update/${item._id}`} className="btn btn-primary">
                       Update

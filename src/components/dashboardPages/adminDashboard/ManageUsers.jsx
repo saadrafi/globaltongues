@@ -7,7 +7,7 @@ const ManageUsers = () => {
 
   const {
     data: users = [],
-    isLoading: isDataLoading,
+    isLoading,
     refetch,
   } = useQuery({
     queryKey: ["users"],
@@ -43,67 +43,69 @@ const ManageUsers = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-center text-4xl text-primary">All Users</h1>
-      <div className="overflow-x-auto my-6">
-        <table className="table mx-auto">
-          {/* head */}
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user, index) => (
-              <tr key={user._id}>
-                <td>{index + 1}</td>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{user.role}</td>
-                <td className="space-x-2">
-                  <button
-                    onClick={() => {
-                      makeAdmin(user._id);
-                    }}
-                    className={`btn btn-sm  ${
-                      user.role === "admin" ? " btn-disabled" : "btn-primary btn-outline"
-                    }`}
-                  >
-                    Make Admin
-                    <span
-                      className={`loading loading-spinner loading-xs ${
-                        loading ? "block" : "hidden"
-                      }`}
-                    ></span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      makeInstructor(user._id);
-                    }}
-                    className={`btn btn-sm  ${
-                      user.role === "instructor" || user.role === "admin"
-                        ? " btn-disabled"
-                        : "btn-primary btn-outline"
-                    }`}
-                  >
-                    Make Instructor
-                    <span
-                      className={`loading loading-spinner loading-xs ${
-                        loading ? "block" : "hidden"
-                      }`}
-                    ></span>
-                  </button>
-                </td>
+    !isLoading && (
+      <div>
+        <h1 className="text-center text-4xl text-primary">All Users</h1>
+        <div className="overflow-x-auto my-6">
+          <table className="table mx-auto">
+            {/* head */}
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {users.map((user, index) => (
+                <tr key={user._id}>
+                  <td>{index + 1}</td>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td>{user.role}</td>
+                  <td className="space-x-2">
+                    <button
+                      onClick={() => {
+                        makeAdmin(user._id);
+                      }}
+                      className={`btn btn-sm  ${
+                        user.role === "admin" ? " btn-disabled" : "btn-primary btn-outline"
+                      }`}
+                    >
+                      Make Admin
+                      <span
+                        className={`loading loading-spinner loading-xs ${
+                          loading ? "block" : "hidden"
+                        }`}
+                      ></span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        makeInstructor(user._id);
+                      }}
+                      className={`btn btn-sm  ${
+                        user.role === "instructor" || user.role === "admin"
+                          ? " btn-disabled"
+                          : "btn-primary btn-outline"
+                      }`}
+                    >
+                      Make Instructor
+                      <span
+                        className={`loading loading-spinner loading-xs ${
+                          loading ? "block" : "hidden"
+                        }`}
+                      ></span>
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    )
   );
 };
 

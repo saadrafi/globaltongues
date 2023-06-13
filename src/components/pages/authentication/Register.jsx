@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { FaGoogle, FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../provider/AuthProvider";
 import { notifyError, notifyWithTitle } from "../../../alerts/Alerts";
@@ -16,6 +16,9 @@ const Register = () => {
   const [showCnfPassword, setCnfShowPassword] = useState(false);
   const [submit, setSubmit] = useState(false);
   const { signUp, updateUser, signInWithGoogle, setLoading } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const sendUserdata = (newUser) => {
     fetch("http://localhost:3000/users", {
@@ -29,6 +32,7 @@ const Register = () => {
       .then((data) => {
         setLoading(false);
         notifyWithTitle("Successful", "Sign Up successful");
+        navigate(from, { replace: true });
         console.log(data);
       });
   };
@@ -52,6 +56,7 @@ const Register = () => {
           .then((data) => {
             setLoading(false);
             notifyWithTitle("Successful", "Sign Up successful");
+            navigate(from, { replace: true });
             console.log(data);
           })
           .catch((err) => {
