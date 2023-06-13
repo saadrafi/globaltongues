@@ -11,6 +11,7 @@ import AddClassPage from "../dashboardPages/instructorDashboard/AddClassPage";
 import MyClasses from "../dashboardPages/instructorDashboard/MyClasses";
 import UpdateClass from "../dashboardPages/instructorDashboard/UpdateClass";
 import ManageClass from "../dashboardPages/adminDashboard/ManageClass";
+import Instructors from "../pages/instructors/Instructors";
 
 export const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
       {
         path: "register",
         element: <Register></Register>,
+      },
+      {
+        path: "instructors",
+        element: <Instructors></Instructors>,
       },
     ],
   },
