@@ -17,4 +17,12 @@ const notifyError = (error) => {
   });
 };
 
-export { notifyWithTitle, notifyError };
+const notifyRequired = (message) => {
+  Swal.fire({
+    icon: "warning",
+    title: "Required",
+    text: message,
+  });
+};
+
+export { notifyWithTitle, notifyError,notifyRequired };
