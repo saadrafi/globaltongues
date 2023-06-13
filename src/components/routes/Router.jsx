@@ -8,6 +8,7 @@ import PrivateRoute from "./PrivateRoute";
 import ManageUsers from "../dashboardPages/adminDashboard/ManageUsers";
 import DashboardRoute from "./DashboardRoute";
 import AddClassPage from "../dashboardPages/instructorDashboard/AddClassPage";
+import MyClasses from "../dashboardPages/instructorDashboard/MyClasses";
 
 export const router = createBrowserRouter([
   {
@@ -65,6 +66,14 @@ export const router = createBrowserRouter([
         element: (
           <DashboardRoute role="instructor">
             <AddClassPage></AddClassPage>
+          </DashboardRoute>
+        ),
+      },
+      {
+        path: "myclasses",
+        element: (
+          <DashboardRoute role="instructor">
+            <MyClasses></MyClasses>
           </DashboardRoute>
         ),
       },
