@@ -5,6 +5,7 @@ import Login from "../pages/authentication/Login";
 import Register from "../pages/authentication/Register";
 import Dashboard from "../layout/dashboard/Dashboard";
 import PrivateRoute from "./PrivateRoute";
+import ManageUsers from "../dashboardPages/adminDashboard/ManageUsers";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
       {
         path: "admin",
         element: <h1>Admin</h1>,
+      },
+      {
+        path: "manageusers",
+        element: <ManageUsers></ManageUsers>,
       },
       {
         path: "instructor",

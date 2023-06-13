@@ -97,10 +97,6 @@ const DashboardNav = () => {
                 )}
               </div>
             )}
-
-            <button onClick={logOut} className="btn btn-primary">
-              Log out
-            </button>
           </div>
         </div>
       </div>

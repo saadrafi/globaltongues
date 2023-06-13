@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaGoogle, FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
 import { notifyError, notifyWithTitle } from "../../../alerts/Alerts";
 
@@ -12,11 +12,17 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const { signIn, setLoading, signInWithGoogle } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   const onSubmit = (data) => {
     signIn(data.email, data.password)
       .then((res) => {
         setLoading(false);
         notifyWithTitle("Successful", "Sign In successful");
+        
+        navigate(from, { replace: true });
       })
       .catch((err) => {
         notifyError(err.message);
@@ -43,6 +49,7 @@ const Login = () => {
           .then((data) => {
             setLoading(false);
             notifyWithTitle("Successful", "Sign Up successful");
+            navigate(from, { replace: true });
             console.log(data);
           })
           .catch((err) => {
@@ -129,7 +136,7 @@ const Login = () => {
 
         <p className="text-end text-sm text-gray-500">
           No account?
-          <Link to="/register" className="underline btn-link">
+          <Link state={{ from: from }} to="/register" className="underline btn-link">
             Sign up
           </Link>
         </p>

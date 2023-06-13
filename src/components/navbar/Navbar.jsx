@@ -34,12 +34,14 @@ const Navbar = () => {
           Dashboard
         </NavLink>
       ) : (
-        <NavLink
-          to="/dashboard/student"
-          className={({ isActive }) => (isActive ? "btn btn-link" : "btn btn-ghost")}
-        >
-          Dashboard
-        </NavLink>
+        user && (
+          <NavLink
+            to="/dashboard/student"
+            className={({ isActive }) => (isActive ? "btn btn-link" : "btn btn-ghost")}
+          >
+            Dashboard
+          </NavLink>
+        )
       )}
     </>
   );

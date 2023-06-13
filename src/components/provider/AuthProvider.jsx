@@ -8,8 +8,8 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import app from "../../firebase/firebase.config";
-import FullPageSpinner from "../../spinners/FullPageSpinner";
-import axios from "axios";
+import FullPageSpinner from "../spinners/FullPageSpinner";
+import { useNavigate } from "react-router-dom";
 
 const auth = getAuth(app);
 
@@ -42,8 +42,7 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, googleProvider);
   };
 
-  const logOut = () => {
-    setLoading(true);
+  const logOut = async () => {
     return auth.signOut();
   };
 
