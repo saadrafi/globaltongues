@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import app from "../../firebase/firebase.config";
 import FullPageSpinner from "../../spinners/FullPageSpinner";
+import axios from "axios";
 
 const auth = getAuth(app);
 
@@ -41,9 +42,15 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, googleProvider);
   };
 
+  const logOut = () => {
+    setLoading(true);
+    return auth.signOut();
+  };
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
+      console.log(user);
       setLoading(false);
     });
     return () => {
@@ -58,6 +65,7 @@ const AuthProvider = ({ children }) => {
     setLoading,
     signIn,
     signInWithGoogle,
+    logOut,
   };
   return loading ? (
     <FullPageSpinner></FullPageSpinner>

@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../provider/AuthProvider";
+import FindRole from "../../customhooks/FindRole";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, logOut, role } = useContext(AuthContext);
+  const [userRole] = FindRole();
   const navItems = (
     <>
       <NavLink to="/" className={({ isActive }) => (isActive ? "btn btn-link" : "btn btn-ghost")}>
@@ -15,9 +19,28 @@ const Navbar = () => {
       <NavLink to="/" className={({ isActive }) => (isActive ? "btn btn-link" : "btn btn-ghost")}>
         Classes
       </NavLink>
-      <NavLink to="/" className={({ isActive }) => (isActive ? "btn btn-link" : "btn btn-ghost")}>
-        Dashboard
-      </NavLink>
+      {userRole === "admin" ? (
+        <NavLink
+          to="/dashboard/admin"
+          className={({ isActive }) => (isActive ? "btn btn-link" : "btn btn-ghost")}
+        >
+          Dashboard
+        </NavLink>
+      ) : userRole === "instructor" ? (
+        <NavLink
+          to="/dashboard/instructor"
+          className={({ isActive }) => (isActive ? "btn btn-link" : "btn btn-ghost")}
+        >
+          Dashboard
+        </NavLink>
+      ) : (
+        <NavLink
+          to="/dashboard/student"
+          className={({ isActive }) => (isActive ? "btn btn-link" : "btn btn-ghost")}
+        >
+          Dashboard
+        </NavLink>
+      )}
     </>
   );
   return (
@@ -64,10 +87,28 @@ const Navbar = () => {
             <ul className="menu menu-horizontal px-1">{navItems}</ul>
           </div>
           <div className="flex items-center gap-2 ">
-            <div className="md:h-11 md:w-11 h-11">
-              <FaUserCircle className="h-full w-full" />
-            </div>
-            <Link className="btn btn-primary">Log out</Link>
+            {user && (
+              <div className="md:h-11 md:w-11 h-11">
+                {user?.photoURL ? (
+                  <img
+                    src={user.photoURL}
+                    alt="user"
+                    className="rounded-full h-full w-full object-cover"
+                  />
+                ) : (
+                  <FaUserCircle className="h-full w-full text-3xl" />
+                )}
+              </div>
+            )}
+            {user ? (
+              <button onClick={logOut} className="btn btn-primary">
+                Log out
+              </button>
+            ) : (
+              <Link to="/login" className="btn btn-primary">
+                Log In
+              </Link>
+            )}
           </div>
         </div>
       </div>
