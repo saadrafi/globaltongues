@@ -19,7 +19,7 @@ const Navbar = () => {
       >
         Instructors
       </NavLink>
-      <NavLink to="/" className={({ isActive }) => (isActive ? "btn btn-link" : "btn btn-ghost")}>
+      <NavLink to="/classes" className={({ isActive }) => (isActive ? "btn btn-link" : "btn btn-ghost")}>
         Classes
       </NavLink>
       {userRole === "admin" ? (
