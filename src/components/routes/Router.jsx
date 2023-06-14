@@ -13,6 +13,9 @@ import UpdateClass from "../dashboardPages/instructorDashboard/UpdateClass";
 import ManageClass from "../dashboardPages/adminDashboard/ManageClass";
 import Instructors from "../pages/instructors/Instructors";
 import ClassesPage from "../pages/classesPage/ClassesPage";
+import SelectedPage from "../dashboardPages/studentDashboard/SelectedPage";
+import PaymentForm from "../dashboardPages/studentDashboard/PaymentForm";
+import StripeContainer from "../dashboardPages/studentDashboard/StripeContainer";
 
 export const router = createBrowserRouter([
   {
@@ -110,6 +113,22 @@ export const router = createBrowserRouter([
         element: (
           <DashboardRoute role="student">
             <h1>Student</h1>
+          </DashboardRoute>
+        ),
+      },
+      {
+        path: "selected",
+        element: (
+          <DashboardRoute role="student">
+            <SelectedPage></SelectedPage>
+          </DashboardRoute>
+        ),
+      },
+      {
+        path: "payment/:id",
+        element: (
+          <DashboardRoute role="student">
+            <StripeContainer></StripeContainer>
           </DashboardRoute>
         ),
       },
