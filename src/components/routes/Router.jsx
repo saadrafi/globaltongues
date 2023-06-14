@@ -16,6 +16,7 @@ import ClassesPage from "../pages/classesPage/ClassesPage";
 import SelectedPage from "../dashboardPages/studentDashboard/SelectedPage";
 import PaymentForm from "../dashboardPages/studentDashboard/PaymentForm";
 import StripeContainer from "../dashboardPages/studentDashboard/StripeContainer";
+import EnrolledPage from "../dashboardPages/studentDashboard/EnrolledPage";
 
 export const router = createBrowserRouter([
   {
@@ -129,6 +130,14 @@ export const router = createBrowserRouter([
         element: (
           <DashboardRoute role="student">
             <StripeContainer></StripeContainer>
+          </DashboardRoute>
+        ),
+      },
+      {
+        path: "enrolled",
+        element: (
+          <DashboardRoute role="student">
+            <EnrolledPage></EnrolledPage>
           </DashboardRoute>
         ),
       },
