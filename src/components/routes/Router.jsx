@@ -17,6 +17,7 @@ import SelectedPage from "../dashboardPages/studentDashboard/SelectedPage";
 import PaymentForm from "../dashboardPages/studentDashboard/PaymentForm";
 import StripeContainer from "../dashboardPages/studentDashboard/StripeContainer";
 import EnrolledPage from "../dashboardPages/studentDashboard/EnrolledPage";
+import PaymentHistory from "../dashboardPages/studentDashboard/PaymentHistory";
 
 export const router = createBrowserRouter([
   {
@@ -138,6 +139,14 @@ export const router = createBrowserRouter([
         element: (
           <DashboardRoute role="student">
             <EnrolledPage></EnrolledPage>
+          </DashboardRoute>
+        ),
+      },
+      {
+        path: "paymenthistory",
+        element: (
+          <DashboardRoute role="student">
+            <PaymentHistory></PaymentHistory>
           </DashboardRoute>
         ),
       },

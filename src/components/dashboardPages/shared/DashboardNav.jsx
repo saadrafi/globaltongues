@@ -2,7 +2,14 @@ import React, { useContext } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 import FindRole from "../../../customhooks/FindRole";
 import { Link, NavLink } from "react-router-dom";
-import { FaUserCircle, FaHome, FaUsers, FaUniversity, FaUserCheck } from "react-icons/fa";
+import {
+  FaUserCircle,
+  FaHome,
+  FaUsers,
+  FaUniversity,
+  FaUserCheck,
+  FaHistory,
+} from "react-icons/fa";
 import { SiGoogleclassroom, SiAddthis } from "react-icons/si";
 import { MdAddToPhotos } from "react-icons/md";
 
@@ -64,6 +71,13 @@ const DashboardNav = () => {
           >
             <FaUserCheck></FaUserCheck>
             Enrolled Classes
+          </NavLink>
+          <NavLink
+            to="/dashboard/paymenthistory"
+            className={({ isActive }) => (isActive ? "btn btn-link" : "btn btn-ghost")}
+          >
+            <FaHistory></FaHistory>
+            Payments
           </NavLink>
         </>
       )}

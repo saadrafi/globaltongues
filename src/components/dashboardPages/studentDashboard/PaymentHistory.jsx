@@ -1,49 +1,47 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
-import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import dateFormat, { masks } from "dateformat";
 
-const EnrolledPage = () => {
+const PaymentHistory = () => {
   const { user } = useContext(AuthContext);
   const {
-    data: enrolledClasses = [],
+    data: payments = [],
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["enrolled", user?.email],
+    queryKey: ["payments", user?.email],
 
     queryFn: async () => {
       const res = await axios.get(`http://localhost:3000/enrolled?email=${user?.email}`);
       return res.data;
     },
   });
-  console.log(enrolledClasses);
-
+  console.log(payments);
   return (
     <div>
-      <h1 className="text-center text-xl text-primary my-4 font-bold">My Enrolled Classes</h1>
+      <h1 className="text-center text-xl text-primary my-4 font-bold">Payments</h1>
       <div className="overflow-x-auto my-6">
-        <table className="table mx-auto max-w-4xl">
+        <table className="table mx-auto max-w-5xl">
           {/* head */}
           <thead>
             <tr>
               <th>#</th>
-              <th>Image</th>
-              <th>Class Name</th>
-              <th>Instructor</th>
+              <th>Transaction ID</th>
+              <th>Amount</th>
+              <th>Date</th>
             </tr>
           </thead>
           {/* body */}
           <tbody>
-            {enrolledClasses.map((item, index) => (
+            {payments.map((item, index) => (
               <tr key={item._id}>
                 <td>{index + 1}</td>
-                <td>
-                  <img src={item.classImage} alt="" className=" h-16 rounded" />
-                </td>
+                <td>{item.transactionId}</td>
 
-                <td>{item.className}</td>
-                <td>{item.instructor}</td>
+                <td>${item.classPrice}</td>
+                <td>{dateFormat(item.date)}</td>
               </tr>
             ))}
           </tbody>
@@ -53,4 +51,4 @@ const EnrolledPage = () => {
   );
 };
 
-export default EnrolledPage;
+export default PaymentHistory;
