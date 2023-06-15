@@ -3,8 +3,10 @@ import axios from "axios";
 import React from "react";
 import Swal from "sweetalert2";
 import { notifyWithTitle } from "../../../alerts/Alerts";
+import AxiosInstance from "../../../customhooks/AxiosInstance";
 
 const ManageClass = () => {
+  const getAxios = AxiosInstance();
   const {
     data: classes = [],
     isLoading,
@@ -13,14 +15,14 @@ const ManageClass = () => {
     queryKey: ["classes"],
 
     queryFn: async () => {
-      const res = await axios.get("http://localhost:3000/class/");
+      const res = await getAxios.get("/class/");
       return res.data;
     },
   });
 
   const handleApprove = (id) => {
-    axios
-      .put(`http://localhost:3000/class/${id}`, {
+    getAxios
+      .put(`/class/${id}`, {
         status: "approved",
       })
       .then((res) => {
@@ -29,8 +31,8 @@ const ManageClass = () => {
   };
 
   const handleReject = (id) => {
-    axios
-      .put(`http://localhost:3000/class/${id}`, {
+    getAxios
+      .put(`/class/${id}`, {
         status: "denied",
       })
       .then((res) => {
@@ -50,8 +52,8 @@ const ManageClass = () => {
     });
 
     if (text) {
-      axios
-        .put(`http://localhost:3000/class/${id}`, {
+      getAxios
+        .put(`/class/${id}`, {
           feedback: text,
         })
         .then((res) => {

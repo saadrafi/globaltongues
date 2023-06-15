@@ -18,6 +18,7 @@ import PaymentForm from "../dashboardPages/studentDashboard/PaymentForm";
 import StripeContainer from "../dashboardPages/studentDashboard/StripeContainer";
 import EnrolledPage from "../dashboardPages/studentDashboard/EnrolledPage";
 import PaymentHistory from "../dashboardPages/studentDashboard/PaymentHistory";
+import DashboardHome from "../dashboardPages/shared/DashboardHome";
 
 export const router = createBrowserRouter([
   {
@@ -58,7 +59,7 @@ export const router = createBrowserRouter([
         path: "admin",
         element: (
           <DashboardRoute role="admin">
-            <h1>Admin</h1>
+            <DashboardHome>Admin</DashboardHome>
           </DashboardRoute>
         ),
       },
@@ -82,7 +83,7 @@ export const router = createBrowserRouter([
         path: "instructor",
         element: (
           <DashboardRoute role="instructor">
-            <h1>Instructor</h1>
+            <DashboardHome>Instructor</DashboardHome>
           </DashboardRoute>
         ),
       },
@@ -114,7 +115,7 @@ export const router = createBrowserRouter([
         path: "student",
         element: (
           <DashboardRoute role="student">
-            <h1>Student</h1>
+            <DashboardHome>Student</DashboardHome>
           </DashboardRoute>
         ),
       },

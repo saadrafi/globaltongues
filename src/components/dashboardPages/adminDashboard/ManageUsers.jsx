@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios, { Axios } from "axios";
+import AxiosInstance from "../../../customhooks/AxiosInstance";
 
 const ManageUsers = () => {
+  const getAxios = AxiosInstance();
   const [loading, setLoading] = useState(false);
 
   const {
@@ -13,15 +15,15 @@ const ManageUsers = () => {
     queryKey: ["users"],
 
     queryFn: async () => {
-      const res = await axios.get("http://localhost:3000/users/");
+      const res = await getAxios.get("/users/");
       return res.data;
     },
   });
 
   const makeInstructor = (id) => {
     setLoading(true);
-    axios
-      .put(`http://localhost:3000/users/${id}`, {
+    getAxios
+      .put(`/users/${id}`, {
         role: "instructor",
       })
       .then((res) => {
@@ -32,8 +34,8 @@ const ManageUsers = () => {
 
   const makeAdmin = (id) => {
     setLoading(true);
-    axios
-      .put(`http://localhost:3000/users/${id}`, {
+    getAxios
+      .put(`/users/${id}`, {
         role: "admin",
       })
       .then((res) => {

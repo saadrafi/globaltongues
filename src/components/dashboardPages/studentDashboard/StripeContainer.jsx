@@ -7,9 +7,11 @@ import { useQuery } from "@tanstack/react-query";
 import FullPageSpinner from "../../spinners/FullPageSpinner";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import AxiosInstance from "../../../customhooks/AxiosInstance";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
 const StripeContainer = () => {
+  const getAxios = AxiosInstance();
   const { id } = useParams();
   const { user } = useContext(AuthContext);
   const {
@@ -20,7 +22,7 @@ const StripeContainer = () => {
     queryKey: ["selectClasses", id],
 
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:3000/selectClass/${id}`);
+      const res = await getAxios.get(`/selectClass/${id}`);
       return res.data;
     },
   });

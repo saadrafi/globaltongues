@@ -5,11 +5,13 @@ import axios from "axios";
 import { notifyWithTitle } from "../../../alerts/Alerts";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import AxiosInstance from "../../../customhooks/AxiosInstance";
 
 const UpdateClass = () => {
   const { user } = useContext(AuthContext);
   const { id } = useParams();
   const navigate = useNavigate();
+  const getAxios = AxiosInstance();
 
   const {
     data: classData = [],
@@ -19,7 +21,7 @@ const UpdateClass = () => {
     queryKey: ["singleClass", id],
 
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:3000/class/${id}`);
+      const res = await getAxios.get(`/class/${id}`);
       return res.data;
     },
   });
@@ -32,7 +34,7 @@ const UpdateClass = () => {
       availableSeat: parseInt(data.totalSeat),
     };
     // use axios to update data
-    axios.put(`http://localhost:3000/class/${id}`, newClass).then((res) => {
+    getAxios.put(`/class/${id}`, newClass).then((res) => {
       notifyWithTitle("Updated", "Class Updated Successfully");
 
       reset();

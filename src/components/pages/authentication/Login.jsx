@@ -21,7 +21,7 @@ const Login = () => {
       .then((res) => {
         setLoading(false);
         notifyWithTitle("Successful", "Sign In successful");
-        
+
         navigate(from, { replace: true });
       })
       .catch((err) => {
@@ -59,6 +59,7 @@ const Login = () => {
       })
       .catch((err) => {
         notifyError(err.message);
+        setLoading(false);
       });
   };
   const [showPassword, setShowPassword] = useState(false);

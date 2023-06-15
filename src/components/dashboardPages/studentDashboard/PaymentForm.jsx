@@ -12,6 +12,7 @@ import { AuthContext } from "../../provider/AuthProvider";
 import { notifyWithTitle } from "../../../alerts/Alerts";
 import { useNavigate } from "react-router-dom";
 import FullPageSpinner from "../../spinners/FullPageSpinner";
+import AxiosInstance from "../../../customhooks/AxiosInstance";
 
 const CARD_OPTIONS = {
   style: {
@@ -29,6 +30,7 @@ const CARD_OPTIONS = {
 };
 
 const PaymentForm = ({ price, classData }) => {
+  const getAxios = AxiosInstance();
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const [cardError, setCardError] = useState("");
@@ -41,7 +43,7 @@ const PaymentForm = ({ price, classData }) => {
 
   useEffect(() => {
     const generateClientSecret = async () => {
-      const response = await axios.post("http://localhost:3000/payment", {
+      const response = await getAxios.post("/payment", {
         amount: price,
       });
       setClientSecret(response.data.clientSecret);
@@ -100,12 +102,12 @@ const PaymentForm = ({ price, classData }) => {
         date: new Date(),
         status: "paid",
       };
-      const res = await axios.post("http://localhost:3000/paymentSuccess", newPayment);
+      const res = await getAxios.post("/paymentSuccess", newPayment);
       if (res.statusText === "OK") {
-        axios
-          .put(`http://localhost:3000/selectClass/${classData.classId}`)
+        getAxios
+          .put(`/selectClass/${classData.classId}`)
           .then((res) => {
-            axios.delete(`http://localhost:3000/selectClass/${classData._id}`).then(() => {
+            getAxios.delete(`/selectClass/${classData._id}`).then(() => {
               notifyWithTitle("Done", "Payment Successful");
 
               navigate(-1);

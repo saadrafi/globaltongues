@@ -6,16 +6,18 @@ import FindRole from "../../../customhooks/FindRole";
 import { notifyError, notifyRequired, notifyWithTitle } from "../../../alerts/Alerts";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import AxiosInstance from "../../../customhooks/AxiosInstance";
 
 const ClassesPage = () => {
   const { user } = useContext(AuthContext);
+  const getAxios = AxiosInstance();
   const location = useLocation();
   const navigate = useNavigate();
   const [userRole] = FindRole();
   const { data: classes = [], isLoading } = useQuery({
     queryKey: ["classes"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:3000/class?status=approved");
+      const res = await getAxios.get("/class?status=approved");
       return res.data;
     },
   });
@@ -51,8 +53,8 @@ const ClassesPage = () => {
           classImage: classItem.classImage,
           userEmail: user.email,
         };
-        axios
-          .post("http://localhost:3000/selectClass", selectedClass)
+        getAxios
+          .post("/selectClass", selectedClass)
           .then((res) => {
             if (res.data.error) {
               notifyError(res.data.message);

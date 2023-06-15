@@ -4,9 +4,11 @@ import { AuthContext } from "../../provider/AuthProvider";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import AxiosInstance from "../../../customhooks/AxiosInstance";
 
 const SelectedPage = () => {
   const { user } = useContext(AuthContext);
+  const getAxios = AxiosInstance();
   const {
     data: selectClasses = [],
     isLoading,
@@ -15,7 +17,7 @@ const SelectedPage = () => {
     queryKey: ["selectClasses", user?.email],
 
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:3000/selectClass?email=${user?.email}`);
+      const res = await getAxios.get(`/selectClass?email=${user?.email}`);
       return res.data;
     },
   });
@@ -31,7 +33,7 @@ const SelectedPage = () => {
       confirmButtonText: "Yes",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`http://localhost:3000/selectClass/${id}`).then(() => {
+        getAxios.delete(`/selectClass/${id}`).then(() => {
           refetch();
         });
       }

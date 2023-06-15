@@ -1,15 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
+import AxiosInstance from "../../../customhooks/AxiosInstance";
 
 const Instructors = () => {
   // use tanstack query to load instructors data
   // use tanstack query to load instructors data
+  const getAxios = AxiosInstance();
 
   const { data: instructors = [], isLoading } = useQuery({
     queryKey: ["instructors"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:3000/users?role=instructor");
+      const res = await getAxios.get("/users?role=instructor");
       return res.data;
     },
   });

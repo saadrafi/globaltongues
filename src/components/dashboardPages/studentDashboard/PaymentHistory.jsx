@@ -3,18 +3,21 @@ import { AuthContext } from "../../provider/AuthProvider";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import dateFormat, { masks } from "dateformat";
+import AxiosInstance from "../../../customhooks/AxiosInstance";
 
 const PaymentHistory = () => {
   const { user } = useContext(AuthContext);
+  const getAxios = AxiosInstance();
   const {
     data: payments = [],
     isLoading,
     refetch,
   } = useQuery({
     queryKey: ["payments", user?.email],
+    enabled: !!user?.email,
 
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:3000/enrolled?email=${user?.email}`);
+      const res = await getAxios.get(`/payments?email=${user?.email}`);
       return res.data;
     },
   });

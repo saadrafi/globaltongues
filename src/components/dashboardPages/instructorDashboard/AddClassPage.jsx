@@ -3,9 +3,11 @@ import { AuthContext } from "../../provider/AuthProvider";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { notifyWithTitle } from "../../../alerts/Alerts";
+import AxiosInstance from "../../../customhooks/AxiosInstance";
 
 const AddClassPage = () => {
   const { user } = useContext(AuthContext);
+  const getAxios = AxiosInstance();
 
   const {
     register,
@@ -27,8 +29,8 @@ const AddClassPage = () => {
       status: "pending",
     };
     // use axios to send data
-    axios
-      .post("http://localhost:3000/class", newClass)
+    getAxios
+      .post("/class", newClass)
       .then((res) => {
         notifyWithTitle("Added", "Class Added Successfully");
         reset();

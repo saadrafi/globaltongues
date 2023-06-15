@@ -3,9 +3,11 @@ import axios from "axios";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
+import AxiosInstance from "../../../customhooks/AxiosInstance";
 
 const MyClasses = () => {
   const { user } = useContext(AuthContext);
+  const getAxios = AxiosInstance();
   const {
     data: classes = [],
     isLoading,
@@ -14,7 +16,7 @@ const MyClasses = () => {
     queryKey: ["classes", user?.email],
 
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:3000/classes/${user?.email}`);
+      const res = await getAxios.get(`/classes/${user?.email}`);
       return res.data;
     },
   });
