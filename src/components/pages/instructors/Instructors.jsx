@@ -2,10 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
 import AxiosInstance from "../../../customhooks/AxiosInstance";
+import setTitle from "../../../customhooks/setTitle";
+import Spinner from "../../spinners/Spinner";
 
 const Instructors = () => {
-  // use tanstack query to load instructors data
-  // use tanstack query to load instructors data
+  setTitle("All Instructor");
   const getAxios = AxiosInstance();
 
   const { data: instructors = [], isLoading } = useQuery({
@@ -15,9 +16,10 @@ const Instructors = () => {
       return res.data;
     },
   });
-  console.log(instructors);
 
-  return (
+  return isLoading ? (
+    <Spinner></Spinner>
+  ) : (
     <div className="my-10">
       <h1 className="text-center text-4xl font-bold my-3 text-primary">Instructors</h1>
       <div className="grid grid-cols-2 gap-3 my-8">

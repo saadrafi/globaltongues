@@ -3,8 +3,12 @@ import { AuthContext } from "../../provider/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import AxiosInstance from "../../../customhooks/AxiosInstance";
+import setTitle from "../../../customhooks/setTitle";
+import Spinner from "../../spinners/Spinner";
+import NoData from "../../spinners/NoData";
 
 const EnrolledPage = () => {
+  setTitle("Enrolled");
   const { user } = useContext(AuthContext);
   const getAxios = AxiosInstance();
   const {
@@ -19,9 +23,12 @@ const EnrolledPage = () => {
       return res.data;
     },
   });
-  console.log(enrolledClasses);
 
-  return (
+  return isLoading ? (
+    <Spinner></Spinner>
+  ) : enrolledClasses?.length === 0 ? (
+    <NoData></NoData>
+  ) : (
     <div>
       <h1 className="text-center text-xl text-primary my-4 font-bold">My Enrolled Classes</h1>
       <div className="overflow-x-auto my-6">

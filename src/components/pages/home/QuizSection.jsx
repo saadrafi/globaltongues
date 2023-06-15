@@ -77,8 +77,9 @@ const QuizSection = () => {
               </p>
             </div>
             <div className="flex flex-col gap-3 items-center">
-              {quiz[currentQuestion].answerOptions.map((answerOption) => (
+              {quiz[currentQuestion].answerOptions.map((answerOption, index) => (
                 <button
+                  key={index}
                   onClick={() => handleAnswerOptionClick(answerOption.isCorrect)}
                   className="bg-primary text-white w-1/2 px-4 py-2 rounded-full"
                 >

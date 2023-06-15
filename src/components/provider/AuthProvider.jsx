@@ -49,9 +49,8 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
-      console.log(user);
       if (user) {
-        fetch("http://localhost:3000/jwt", {
+        fetch("https://globaltongues.vercel.app/jwt", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -62,7 +61,6 @@ const AuthProvider = ({ children }) => {
             return res.json();
           })
           .then((data) => {
-            console.log(data);
             localStorage.setItem("access-token", data.token);
             setLoading(false);
           })

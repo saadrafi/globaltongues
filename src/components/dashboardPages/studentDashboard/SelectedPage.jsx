@@ -5,8 +5,11 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import AxiosInstance from "../../../customhooks/AxiosInstance";
+import setTitle from "../../../customhooks/setTitle";
+import Spinner from "../../spinners/Spinner";
 
 const SelectedPage = () => {
+  setTitle("Booked Class");
   const { user } = useContext(AuthContext);
   const getAxios = AxiosInstance();
   const {
@@ -21,7 +24,6 @@ const SelectedPage = () => {
       return res.data;
     },
   });
-  console.log(selectClasses);
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are You Sure?",
@@ -39,7 +41,9 @@ const SelectedPage = () => {
       }
     });
   };
-  return (
+  return isLoading ? (
+    <Spinner></Spinner>
+  ) : (
     <div>
       <h1 className="text-center text-xl text-primary my-4 font-bold">Selected Classes</h1>
       <div className="max-w-3xl  mx-auto">

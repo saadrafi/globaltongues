@@ -4,8 +4,10 @@ import { FaGoogle, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
 import { notifyError, notifyWithTitle } from "../../../alerts/Alerts";
+import setTitle from "../../../customhooks/setTitle";
 
 const Login = () => {
+  setTitle("Sign In");
   const {
     register,
     handleSubmit,
@@ -15,7 +17,7 @@ const Login = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const from = "/";
   const onSubmit = (data) => {
     signIn(data.email, data.password)
       .then((res) => {
@@ -25,6 +27,7 @@ const Login = () => {
         navigate(from, { replace: true });
       })
       .catch((err) => {
+        setLoading(false);
         notifyError(err.message);
       });
   };
@@ -38,7 +41,7 @@ const Login = () => {
           image: res.user.photoURL,
           role: "student",
         };
-        fetch("http://localhost:3000/users", {
+        fetch("https://globaltongues.vercel.app/users", {
           method: "POST",
           headers: {
             "content-type": "application/json",
@@ -50,7 +53,6 @@ const Login = () => {
             setLoading(false);
             notifyWithTitle("Successful", "Sign Up successful");
             navigate(from, { replace: true });
-            console.log(data);
           })
           .catch((err) => {
             notifyError(err.message);

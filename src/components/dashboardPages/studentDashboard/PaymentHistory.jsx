@@ -4,8 +4,12 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import dateFormat, { masks } from "dateformat";
 import AxiosInstance from "../../../customhooks/AxiosInstance";
+import setTitle from "../../../customhooks/setTitle";
+import Spinner from "../../spinners/Spinner";
+import NoData from "../../spinners/NoData";
 
 const PaymentHistory = () => {
+  setTitle("Payments");
   const { user } = useContext(AuthContext);
   const getAxios = AxiosInstance();
   const {
@@ -21,8 +25,11 @@ const PaymentHistory = () => {
       return res.data;
     },
   });
-  console.log(payments);
-  return (
+  return isLoading ? (
+    <Spinner></Spinner>
+  ) : payments?.length === 0 ? (
+    <NoData></NoData>
+  ) : (
     <div>
       <h1 className="text-center text-xl text-primary my-4 font-bold">Payments</h1>
       <div className="overflow-x-auto my-6">

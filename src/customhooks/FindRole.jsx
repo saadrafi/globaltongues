@@ -10,7 +10,7 @@ const FindRole = () => {
   // use axios secure with react query
   const { data: userRole, isLoading: isRoleLoading } = useQuery({
     queryKey: ["role", user?.email],
-    enabled: !!user?.email,
+    enabled: !!user?.email && !loading,
     queryFn: async () => {
       const res = await getAxios.get(`/users/${user?.email}`);
       return res.data.role;

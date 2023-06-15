@@ -4,7 +4,7 @@ import { AuthContext } from "../components/provider/AuthProvider";
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://globaltongues.vercel.app",
 });
 const AxiosInstance = () => {
   const { logOut } = useContext(AuthContext);
@@ -30,12 +30,13 @@ const AxiosInstance = () => {
       },
       async (error) => {
         if (error.response.status === 401 || error.response.status === 403) {
+          await logOut();
           navigate("/");
         }
         return error;
       }
     );
-  }, [navigate]);
+  }, [navigate, logOut]);
   return axiosInstance;
 };
 

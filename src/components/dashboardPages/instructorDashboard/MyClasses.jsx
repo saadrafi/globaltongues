@@ -4,8 +4,12 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
 import AxiosInstance from "../../../customhooks/AxiosInstance";
+import setTitle from "../../../customhooks/setTitle";
+import Spinner from "../../spinners/Spinner";
+import NoData from "../../spinners/NoData";
 
 const MyClasses = () => {
+  setTitle("My Classes");
   const { user } = useContext(AuthContext);
   const getAxios = AxiosInstance();
   const {
@@ -20,61 +24,62 @@ const MyClasses = () => {
       return res.data;
     },
   });
-  console.log(classes);
-  return (
-    !isLoading && (
-      <div>
-        <h1 className="text-center text-3xl text-primary my-4 font-bold">My Classes</h1>
-        <div className="overflow-x-auto my-6">
-          <table className="table mx-auto">
-            {/* head */}
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Available Seats</th>
-                <th>Enrolled Student</th>
-                <th>Status</th>
-                <th>Feedback</th>
-                <th></th>
+  return isLoading ? (
+    <Spinner></Spinner>
+  ) : classes?.length === 0 ? (
+    <NoData></NoData>
+  ) : (
+    <div>
+      <h1 className="text-center text-3xl text-primary my-4 font-bold">My Classes</h1>
+      <div className="overflow-x-auto my-6">
+        <table className="table mx-auto">
+          {/* head */}
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Available Seats</th>
+              <th>Enrolled Student</th>
+              <th>Status</th>
+              <th>Feedback</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {/* row */}
+            {classes.map((item, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{item.className}</td>
+                <td>${item.price}</td>
+                <td>{item.availableSeat}</td>
+                <td>{item.enrolledStudent}</td>
+                <td>
+                  <span
+                    className={`badge ${
+                      item.status === "pending"
+                        ? "badge-warning"
+                        : item.status === "approved"
+                        ? "badge-success"
+                        : "badge-error"
+                    }`}
+                  >
+                    {item.status}
+                  </span>
+                </td>
+                <td>{item.status === "denied" ? item?.feedback : ""}</td>
+                <td>
+                  <Link to={`/dashboard/update/${item._id}`} className="btn btn-primary">
+                    Update
+                  </Link>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {/* row */}
-              {classes.map((item, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{item.className}</td>
-                  <td>${item.price}</td>
-                  <td>{item.availableSeat}</td>
-                  <td>{item.enrolledStudent}</td>
-                  <td>
-                    <span
-                      className={`badge ${
-                        item.status === "pending"
-                          ? "badge-warning"
-                          : item.status === "approved"
-                          ? "badge-success"
-                          : "badge-error"
-                      }`}
-                    >
-                      {item.status}
-                    </span>
-                  </td>
-                  <td>{item.status === "denied" ? item?.feedback : ""}</td>
-                  <td>
-                    <Link to={`/dashboard/update/${item._id}`} className="btn btn-primary">
-                      Update
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
-    )
+    </div>
   );
 };
 

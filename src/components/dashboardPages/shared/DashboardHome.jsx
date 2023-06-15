@@ -1,7 +1,9 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
+import setTitle from "../../../customhooks/setTitle";
 
 const DashboardHome = ({ children }) => {
+  setTitle("Dashboard")
   const { user } = useContext(AuthContext);
   return (
     <div>

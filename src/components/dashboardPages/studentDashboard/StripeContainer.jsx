@@ -8,9 +8,11 @@ import FullPageSpinner from "../../spinners/FullPageSpinner";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import AxiosInstance from "../../../customhooks/AxiosInstance";
+import setTitle from "../../../customhooks/setTitle";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
 const StripeContainer = () => {
+  setTitle("Payment Gateway")
   const getAxios = AxiosInstance();
   const { id } = useParams();
   const { user } = useContext(AuthContext);
@@ -32,7 +34,6 @@ const StripeContainer = () => {
   }
 
   const price = parseFloat(selectClass.price.toFixed(2));
-  console.log(price);
 
   return (
     <Elements stripe={stripePromise}>

@@ -6,8 +6,11 @@ import { notifyWithTitle } from "../../../alerts/Alerts";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import AxiosInstance from "../../../customhooks/AxiosInstance";
+import setTitle from "../../../customhooks/setTitle";
+import Spinner from "../../spinners/Spinner";
 
 const UpdateClass = () => {
+  setTitle("Update Class");
   const { user } = useContext(AuthContext);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -25,7 +28,6 @@ const UpdateClass = () => {
       return res.data;
     },
   });
-  console.log(classData);
   const onSubmit = (data) => {
     const newClass = {
       className: data.className,
@@ -48,7 +50,9 @@ const UpdateClass = () => {
     reset,
     formState: { errors },
   } = useForm();
-  return (
+  return isLoading ? (
+    <Spinner></Spinner>
+  ) : (
     <div>
       <h1 className="text-center text-3xl text-primary my-4 font-bold">Update Class</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="my-10">

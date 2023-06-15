@@ -14,14 +14,13 @@ const PopularInstructor = () => {
       return res.data;
     },
   });
-  console.log(instructors);
   return (
     <div className="my-10">
-      <h1 className="font-bold text-center text-3xl text-primary">Top Instructor</h1>
+      <h1 className="font-bold text-center text-4xl text-primary">Top Instructor</h1>
       <p className="font-bold text-center my-3">Here are our top instructor</p>
       <div className="grid grid-cols-1 lg:grid-cols-3">
         {instructors.map((instructor) => (
-          <Slide cascade delay={1000} duration={2000}>
+          <Slide key={instructor._id} cascade delay={1000} duration={2000}>
             <div
               className="bg-white shadow-lg rounded-lg overflow-hidden my-5 mx-5"
               key={instructor._id}

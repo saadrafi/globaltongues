@@ -4,7 +4,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../provider/AuthProvider";
 import { notifyError, notifyWithTitle } from "../../../alerts/Alerts";
+import setTitle from "../../../customhooks/setTitle";
 const Register = () => {
+  setTitle("Sign Up")
   const {
     reset,
     register,
@@ -21,7 +23,7 @@ const Register = () => {
   const from = location.state?.from?.pathname || "/";
 
   const sendUserdata = (newUser) => {
-    fetch("http://localhost:3000/users", {
+    fetch("https://globaltongues.vercel.app/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -33,7 +35,6 @@ const Register = () => {
         setLoading(false);
         notifyWithTitle("Successful", "Sign Up successful");
         navigate(from, { replace: true });
-        console.log(data);
       });
   };
   const handleGoogleSignIn = () => {
@@ -45,7 +46,7 @@ const Register = () => {
           image: res.user.photoURL,
           role: "student",
         };
-        fetch("http://localhost:3000/users", {
+        fetch("https://globaltongues.vercel.app/users", {
           method: "POST",
           headers: {
             "content-type": "application/json",
@@ -57,7 +58,6 @@ const Register = () => {
             setLoading(false);
             notifyWithTitle("Successful", "Sign Up successful");
             navigate(from, { replace: true });
-            console.log(data);
           })
           .catch((err) => {
             notifyError(err.message);

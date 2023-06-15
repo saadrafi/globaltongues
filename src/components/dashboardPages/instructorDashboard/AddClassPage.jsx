@@ -4,8 +4,10 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { notifyWithTitle } from "../../../alerts/Alerts";
 import AxiosInstance from "../../../customhooks/AxiosInstance";
+import setTitle from "../../../customhooks/setTitle";
 
 const AddClassPage = () => {
+  setTitle("Add Class")
   const { user } = useContext(AuthContext);
   const getAxios = AxiosInstance();
 

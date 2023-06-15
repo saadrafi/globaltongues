@@ -4,8 +4,12 @@ import React from "react";
 import Swal from "sweetalert2";
 import { notifyWithTitle } from "../../../alerts/Alerts";
 import AxiosInstance from "../../../customhooks/AxiosInstance";
+import setTitle from "../../../customhooks/setTitle";
+import Spinner from "../../spinners/Spinner";
+import NoData from "../../spinners/NoData";
 
 const ManageClass = () => {
+  setTitle("Manage Class");
   const getAxios = AxiosInstance();
   const {
     data: classes = [],
@@ -63,7 +67,11 @@ const ManageClass = () => {
     }
   };
 
-  return (
+  return isLoading ? (
+    <Spinner></Spinner>
+  ) : classes?.length === 0 ? (
+    <NoData></NoData>
+  ) : (
     <div>
       <h1 className="text-center text-4xl text-primary">Manage Classes</h1>
       <div className="overflow-x-auto my-7">

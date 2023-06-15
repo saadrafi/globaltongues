@@ -13,6 +13,7 @@ import { notifyWithTitle } from "../../../alerts/Alerts";
 import { useNavigate } from "react-router-dom";
 import FullPageSpinner from "../../spinners/FullPageSpinner";
 import AxiosInstance from "../../../customhooks/AxiosInstance";
+import Spinner from "../../spinners/Spinner";
 
 const CARD_OPTIONS = {
   style: {
@@ -50,7 +51,6 @@ const PaymentForm = ({ price, classData }) => {
     };
     generateClientSecret();
   }, []);
-  console.log(clientSecret);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -89,6 +89,7 @@ const PaymentForm = ({ price, classData }) => {
     }
 
     if (payload.paymentIntent.status === "succeeded") {
+      setLoading(true);
       const newPayment = {
         transactionId: payload.paymentIntent.id,
         userName: user.displayName,
@@ -103,17 +104,25 @@ const PaymentForm = ({ price, classData }) => {
         status: "paid",
       };
       const res = await getAxios.post("/paymentSuccess", newPayment);
-      if (res.statusText === "OK") {
+      if (res.data.acknowledged) {
         getAxios
           .put(`/selectClass/${classData.classId}`)
           .then((res) => {
-            getAxios.delete(`/selectClass/${classData._id}`).then(() => {
-              notifyWithTitle("Done", "Payment Successful");
+            getAxios
+              .delete(`/selectClass/${classData._id}`)
+              .then(() => {
+                setLoading(false);
+                notifyWithTitle("Done", "Payment Successful");
 
-              navigate(-1);
-            });
+                navigate(-1);
+              })
+              .catch((err) => {
+                setLoading(false);
+                console.log(err);
+              });
           })
           .catch((err) => {
+            setLoading(false);
             console.log(err);
           });
       }
@@ -139,6 +148,7 @@ const PaymentForm = ({ price, classData }) => {
           {transactionId && `Payment Successful. Transaction Id: ${transactionId}`}
         </p>
       }
+      {loading && <Spinner></Spinner>}
     </div>
   );
 };

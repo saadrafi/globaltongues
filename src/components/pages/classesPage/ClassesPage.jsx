@@ -7,8 +7,11 @@ import { notifyError, notifyRequired, notifyWithTitle } from "../../../alerts/Al
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import AxiosInstance from "../../../customhooks/AxiosInstance";
+import setTitle from "../../../customhooks/setTitle";
+import Spinner from "../../spinners/Spinner";
 
 const ClassesPage = () => {
+  setTitle("All Classes");
   const { user } = useContext(AuthContext);
   const getAxios = AxiosInstance();
   const location = useLocation();
@@ -70,7 +73,9 @@ const ClassesPage = () => {
       }
     }
   };
-  return (
+  return isLoading ? (
+    <Spinner></Spinner>
+  ) : (
     <div className="my-10">
       <h1 className="text-center text-4xl font-bold my-3 text-primary">All Classes</h1>
       <div className="grid grid-cols-3 gap-3 my-8">
