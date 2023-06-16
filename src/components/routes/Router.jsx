@@ -19,11 +19,13 @@ import StripeContainer from "../dashboardPages/studentDashboard/StripeContainer"
 import EnrolledPage from "../dashboardPages/studentDashboard/EnrolledPage";
 import PaymentHistory from "../dashboardPages/studentDashboard/PaymentHistory";
 import DashboardHome from "../dashboardPages/shared/DashboardHome";
+import ErrorPage from "../pages/error/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Main></Main>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "/",
@@ -54,6 +56,7 @@ export const router = createBrowserRouter([
         <Dashboard></Dashboard>
       </PrivateRoute>
     ),
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "admin",
