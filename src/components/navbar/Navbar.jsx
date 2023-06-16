@@ -98,8 +98,8 @@ const Navbar = () => {
               </ul>
             )}
           </div>
-          <Link>
-            <img src="../../../public/logo.png" alt="" className="h-16" />
+          <Link to="/">
+            <img src="/logo.png" alt="logo" className="h-16" />
           </Link>
         </div>
         <div className="flex ml-auto">
