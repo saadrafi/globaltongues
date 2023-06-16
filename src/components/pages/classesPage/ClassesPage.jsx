@@ -111,7 +111,9 @@ const ClassesPage = () => {
                   handleSelect(classItem);
                 }}
                 className={`${
-                  userRole === "admin" || userRole === "instructor" ? "btn-disabled" : "btn-primary"
+                  userRole === "admin" || userRole === "instructor" || classItem.availableSeat === 0
+                    ? "btn-disabled"
+                    : "btn-primary"
                 } text-white cursor-pointer w-full py-2 hover:scale-125 duration-300`}
               >
                 Select Course
