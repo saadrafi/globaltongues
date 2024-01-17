@@ -6,6 +6,15 @@
 
 learn a new language
 
+## Credentials
+- For Admin
+**Email:** admin@gmail.com
+**Password:** Admin@123
+- For Instructor
+**Email:** instructor@gmail.com
+**Password:** Inst@123
+
+
 ## Server Link
 https://github.com/saadrafi/gtServer
 
